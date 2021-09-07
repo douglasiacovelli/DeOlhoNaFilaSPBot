@@ -24,8 +24,8 @@ class GovernmentApiService
         Rails.logger.debug 'no cached health center. Creating'
         HealthCenter.create(health_center_data)
         notify_health_center_changed health_center_data[:id]
-      elsif staled_cache?(cached_health_center, health_center_data)
-        Rails.logger.debug 'staled cache. Updating'
+      elsif stale_cache?(cached_health_center, health_center_data)
+        Rails.logger.debug 'stale cache. Updating'
         cached_health_center.update(health_center_data)
         notify_health_center_changed health_center_data[:id]
       else
@@ -37,7 +37,7 @@ class GovernmentApiService
 
   private
 
-  def staled_cache?(cached_health_center, health_center_data)
+  def stale_cache?(cached_health_center, health_center_data)
     cached_health_center.last_updated_at < HealthCenter.new(health_center_data).last_updated_at
   end
 
@@ -53,7 +53,9 @@ class GovernmentApiService
       name: health_center['equipamento'].downcase,
       address: health_center['endereco'].downcase,
       region: health_center['crs'].downcase,
+      region_id: health_center['id_crs'].to_i,
       district: health_center['distrito'].downcase,
+      district_id: health_center['id_distrito'].to_i,
       queue_size: health_center['status_fila'].downcase,
       has_coronavac: health_center['coronavac'] == 1,
       has_pfizer: health_center['pfizer'] == 1,

@@ -2,10 +2,12 @@
 
 class UpdatesController < ApplicationController
   def index
-    if list_health_centers?
-      send_health_centers
-    elsif list_regions?
+    if list_regions?
       send_regions
+    elsif region_selected?
+      send_districts_by_region
+    elsif district_selected?
+      send_health_centers
     elsif health_center_selected?
       subscribe_to_health_center
     end
@@ -16,9 +18,10 @@ class UpdatesController < ApplicationController
   private
 
   def send_health_centers
+    district_id = callback_data[:value]
     SendMessageService.call(
       chat_id: chat_id,
-      message_payload: HealthCentersByRegionBuilderService.call(callback_data[:value]),
+      message_payload: HealthCentersByDistrictBuilderService.call(district_id),
       text: 'Escolha o posto de saúde'
     )
   end
@@ -28,6 +31,15 @@ class UpdatesController < ApplicationController
       chat_id: chat_id,
       message_payload: RegionsBuilderService.call,
       text: 'Escolha a região do posto'
+    )
+  end
+
+  def send_districts_by_region
+    region_id = callback_data[:value]
+    SendMessageService.call(
+      chat_id: chat_id,
+      message_payload: DistrictsByRegionBuilderService.call(region_id),
+      text: 'Escolha o bairro do posto'
     )
   end
 
@@ -50,12 +62,16 @@ class UpdatesController < ApplicationController
     message_object['text'].starts_with?('/listarpostos')
   end
 
-  def list_health_centers?
+  def district_selected?
+    callback_data[:namespace] == DistrictsByRegionBuilderService::NAMESPACE
+  end
+
+  def region_selected?
     callback_data[:namespace] == RegionsBuilderService::NAMESPACE
   end
 
   def health_center_selected?
-    callback_data[:namespace] == HealthCentersByRegionBuilderService::NAMESPACE
+    callback_data[:namespace] == HealthCentersByDistrictBuilderService::NAMESPACE
   end
 
   def callback_data

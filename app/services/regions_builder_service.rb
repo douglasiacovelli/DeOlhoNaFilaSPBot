@@ -8,10 +8,10 @@ class RegionsBuilderService
   end
 
   def call
-    regions = HealthCenter.distinct.pluck('region').map do |region|
+    regions = HealthCenter.distinct.pluck('region', 'region_id').map do |name, id|
       {
-        'text': region_name(region).capitalize,
-        'callback_data': "#{NAMESPACE}:#{region}"
+        'text': region_name(name).capitalize,
+        'callback_data': "#{NAMESPACE}:#{id}"
       }
     end
     OptionsBuilderService.call(regions)

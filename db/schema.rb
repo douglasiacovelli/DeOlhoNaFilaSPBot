@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_034021) do
+ActiveRecord::Schema.define(version: 2021_09_07_180722) do
 
   create_table "chat_subscriptions", force: :cascade do |t|
     t.integer "chat_id"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2021_09_07_034021) do
     t.boolean "has_astrazeneca"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "district_id"
+    t.integer "region_id"
   end
 
 end
