@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  address: MyString
+  region: MyString
+  district: MyString
+  last_updated_at: 2021-09-06 20:54:54
+  queue_size: MyString
+  has_coronavac: false
+  has_pfizer: false
+  has_astrazeneca: false
+
+two:
+  name: MyString
+  address: MyString
+  region: MyString
+  district: MyString
+  last_updated_at: 2021-09-06 20:54:54
+  queue_size: MyString
+  has_coronavac: false
+  has_pfizer: false
+  has_astrazeneca: false
