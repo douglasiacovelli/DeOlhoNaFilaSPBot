@@ -12,7 +12,7 @@ class HealthCenterStatusBuilderService
   def call
     "Posto atualizado:\n"\
     "Posto: *#{@health_center.name.capitalize}*\n"\
-    "Status: *#{@health_center.queue_size}*\n"\
+    "Status: *#{@health_center.queue_size.capitalize}*\n"\
     "Vacinas: *#{vaccines}*"
   end
 
