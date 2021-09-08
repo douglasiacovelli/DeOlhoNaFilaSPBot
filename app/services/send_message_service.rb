@@ -16,7 +16,6 @@ class SendMessageService
     @message_payload['text'] = @text
     @message_payload['parse_mode'] = 'MarkdownV2'
 
-    response = TelegramApiService.new.sendMessage(@message_payload)
-    response.body
+    NotificationSenderWorker.perform_async(@message_payload)
   end
 end

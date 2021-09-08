@@ -78,6 +78,7 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     erubi (1.10.0)
     faraday (1.7.1)
@@ -170,6 +171,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.4.0)
     regexp_parser (2.1.1)
     rexml (3.2.5)
     rubocop (1.20.0)
@@ -204,6 +206,10 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sidekiq (6.2.2)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -259,6 +265,7 @@ DEPENDENCIES
   rubocop-rails
   sass-rails (>= 6)
   selenium-webdriver
+  sidekiq (= 6.2.2)
   spring
   sqlite3 (~> 1.4)
   turbolinks (~> 5)
