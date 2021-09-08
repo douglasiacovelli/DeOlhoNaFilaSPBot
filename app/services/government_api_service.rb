@@ -4,6 +4,10 @@ require 'faraday'
 require 'faraday_middleware'
 
 class GovernmentApiService
+  def self.call
+    new.call
+  end
+
   def initialize
     @faraday = Faraday.new(
       url: Rails.configuration.government_api_url
@@ -12,7 +16,7 @@ class GovernmentApiService
     end
   end
 
-  def fetch_data
+  def call
     response = @faraday.post('', 'dados=dados')
     return if response.body.blank?
 
