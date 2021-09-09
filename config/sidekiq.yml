@@ -1,0 +1,4 @@
+:schedule:
+  data_updater_worker:
+    every: '5m'
+    class: DataUpdaterWorker

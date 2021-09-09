@@ -61,9 +61,9 @@ class GovernmentApiService
       district: health_center['distrito'].downcase,
       district_id: health_center['id_distrito'].to_i,
       queue_size: health_center['status_fila'].downcase,
-      has_coronavac: health_center['coronavac'] == 1,
-      has_pfizer: health_center['pfizer'] == 1,
-      has_astrazeneca: health_center['astrazeneca'] == 1,
+      has_coronavac: health_center['coronavac'] == '1',
+      has_pfizer: health_center['pfizer'] == '1',
+      has_astrazeneca: health_center['astrazeneca'] == '1',
       last_updated_at: DateTime.parse("#{health_center['data_hora']}-0300")
     }
   end
