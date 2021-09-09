@@ -15,7 +15,6 @@ gem 'rails', '~> 6.1.2', '>= 6.1.2.1'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq', '6.2.2'
 gem 'sidekiq-scheduler', '3.1.0'
-gem 'sqlite3', '~> 1.4'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 
@@ -33,10 +32,9 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
+  gem 'sqlite3', '~> 1.4'
   gem 'webdrivers'
 end
 
