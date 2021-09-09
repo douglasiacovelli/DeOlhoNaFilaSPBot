@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2021_09_07_195138) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "chat_subscriptions", force: :cascade do |t|
-    t.integer "chat_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "health_center_id"
+    t.integer "chat_id"
     t.index ["chat_id", "health_center_id"], name: "index_chat_subscriptions_on_chat_id_and_health_center_id", unique: true
   end
 

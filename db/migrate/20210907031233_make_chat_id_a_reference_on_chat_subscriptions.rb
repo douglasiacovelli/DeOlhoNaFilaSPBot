@@ -1,11 +1,17 @@
 class MakeChatIdAReferenceOnChatSubscriptions < ActiveRecord::Migration[6.1]
-  def change
+  def up
     change_table :chat_subscriptions, bulk: true do |t|
-      t.change_column :chat_subscriptions,
-                      :chat_id,
-                      'integer USING CAST(chat_id AS integer)',
-                      references: :chats
-      t.remove_column :chat_subscriptions, :active, :boolean
+      t.remove :chat_id
+      t.integer :chat_id, references: :chats
+      t.remove :active
+    end
+  end
+
+  def down
+    change_table :chat_subscriptions, bulk: true do |t|
+      t.remove :chat_id
+      t.string :chat_id
+      t.boolean :active
     end
   end
 end
