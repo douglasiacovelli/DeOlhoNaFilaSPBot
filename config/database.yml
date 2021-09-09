@@ -16,6 +16,4 @@ test:
 
 production:
   <<: *default
-  database: vaccination_app
-  username: vaccination_app
-  password: <%= ENV['VACCINATION_QUEUE_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
