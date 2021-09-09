@@ -20,7 +20,7 @@ class NotifyHealthCenterUpdatedService
     vaccines << 'Coronavac' if health_center.has_coronavac
     vaccines << 'Pfizer' if health_center.has_pfizer
     vaccines << 'Astrazeneca' if health_center.has_astrazeneca
-    response = vaccines_response.join(',')
+    response = vaccines_response.join(', ')
     return 'Sem vacinas' if response.blank?
   end
 end

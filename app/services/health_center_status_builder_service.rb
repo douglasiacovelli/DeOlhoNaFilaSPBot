@@ -11,7 +11,7 @@ class HealthCenterStatusBuilderService
 
   def call
     "Posto atualizado:\n"\
-    "Posto: *#{@health_center.name.capitalize}*\n"\
+    "Posto: *#{health_center_name}*\n"\
     "Status: *#{@health_center.queue_size.capitalize}*\n"\
     "Vacinas: *#{vaccines}*"
   end
@@ -24,5 +24,15 @@ class HealthCenterStatusBuilderService
     return 'Sem vacinas' if vaccines_response.empty?
 
     vaccines_response.join(',')
+  end
+
+  private
+
+  def health_center_name
+    escape_characters(@health_center.name.capitalize)
+  end
+
+  def escape_characters(str)
+    str.gsub(/["'*.\-\[\]()~`>#+=|{}!]/) { |s| "\\#{s}" }
   end
 end

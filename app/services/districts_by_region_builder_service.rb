@@ -11,10 +11,12 @@ class DistrictsByRegionBuilderService
     @region_id = region_id
   end
 
+  # rubocop:disable Metrics/MethodLength
   def call
     districts = HealthCenter
                 .distinct
                 .where(region_id: @region_id)
+                .order(:district)
                 .pluck('district', 'district_id').map do |name, id|
                   {
                     'text': name.capitalize,
@@ -23,4 +25,5 @@ class DistrictsByRegionBuilderService
                 end
     OptionsBuilderService.call(districts)
   end
+  # rubocop:enable Metrics/MethodLength
 end
