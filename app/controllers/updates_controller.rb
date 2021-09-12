@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class UpdatesController < ApplicationController
+  # rubocop:disable Metrics/MethodLength
   def index
-    if list_regions?
+    if start?
+      send_welcome_message
+    elsif list_regions?
       send_regions
     elsif region_selected?
       send_districts_by_region
@@ -14,6 +17,7 @@ class UpdatesController < ApplicationController
 
     head :no_content
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
@@ -43,6 +47,18 @@ class UpdatesController < ApplicationController
     )
   end
 
+  # rubocop:disable Style/StringLiterals
+  def send_welcome_message
+    SendMessageService.call(
+      chat_id: chat_id,
+      text: "Olá\\!\nEu sou um bot para que você saiba sempre que um posto de saúde for *atualizado*\\!"\
+            "\n\nMeus comandos são:\n\n\/listarpostos\ para que você selecione os postos\\.\n\n"\
+            "No futuro vou ficar um pouco mais espertinho :\\)\n\n"\
+            "Se gostar de mim, compartilha com seus amigos pra ajudá\\-los também"
+    )
+  end
+  # rubocop:enable Style/StringLiterals
+
   def subscribe_to_health_center
     health_center_id = callback_data[:value]
     SubscribeToHealthCenter.call(chat_id: chat_id, health_center_id: health_center_id)
@@ -54,6 +70,10 @@ class UpdatesController < ApplicationController
       chat_id: chat_id,
       text: HealthCenterStatusBuilderService.call(HealthCenter.find(health_center_id))
     )
+  end
+
+  def start?
+    message_object['text'].starts_with?('/start')
   end
 
   def list_regions?
