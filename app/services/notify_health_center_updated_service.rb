@@ -9,7 +9,7 @@ class NotifyHealthCenterUpdatedService
     health_center = HealthCenter.find(health_center_id)
     health_center.chat_subscriptions.each do |chat_subscription|
       SendMessageService.call(
-        chat_id: chat_subscription.chat.telegram_chat_id,
+        service_chat_id: chat_subscription.chat.telegram_chat_id,
         text: HealthCenterStatusBuilderService.call(health_center)
       )
     end

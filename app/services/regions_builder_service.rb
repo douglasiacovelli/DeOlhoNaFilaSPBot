@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RegionsBuilderService
+  NAMESPACE_LIST_REGIONS = 'list_regions'
   NAMESPACE = 'region'
 
   def self.call

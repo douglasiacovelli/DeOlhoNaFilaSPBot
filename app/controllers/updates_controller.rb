@@ -7,6 +7,8 @@ class UpdatesController < ApplicationController
       send_welcome_message
     elsif list_regions?
       send_regions
+    elsif list_regions_again?
+      send_regions(edit: true)
     elsif region_selected?
       send_districts_by_region
     elsif district_selected?
@@ -24,33 +26,37 @@ class UpdatesController < ApplicationController
   def send_health_centers
     district_id = callback_data[:value]
     SendMessageService.call(
-      chat_id: chat_id,
+      service_chat_id: chat_id,
       message_payload: HealthCentersByDistrictBuilderService.call(district_id),
-      text: 'Escolha o posto de saúde'
+      text: 'Escolha o posto de saúde',
+      edit_message: true
     )
   end
 
-  def send_regions
+  def send_regions(edit: false)
     SendMessageService.call(
-      chat_id: chat_id,
+      service_chat_id: chat_id,
       message_payload: RegionsBuilderService.call,
-      text: 'Escolha a região do posto'
+      text: 'Escolha a região do posto',
+      save_message_id: !edit,
+      edit_message: edit
     )
   end
 
   def send_districts_by_region
     region_id = callback_data[:value]
     SendMessageService.call(
-      chat_id: chat_id,
+      service_chat_id: chat_id,
       message_payload: DistrictsByRegionBuilderService.call(region_id),
-      text: 'Escolha o bairro do posto'
+      text: 'Escolha o bairro do posto',
+      edit_message: true
     )
   end
 
   # rubocop:disable Style/StringLiterals
   def send_welcome_message
     SendMessageService.call(
-      chat_id: chat_id,
+      service_chat_id: chat_id,
       text: "Olá\\!\nEu sou um bot para que você saiba sempre que um posto de saúde for *atualizado*\\!"\
             "\n\nMeus comandos são:\n\n\/listarpostos\ para que você selecione os postos\\.\n\n"\
             "No futuro vou ficar um pouco mais espertinho :\\)\n\n"\
@@ -63,11 +69,12 @@ class UpdatesController < ApplicationController
     health_center_id = callback_data[:value]
     SubscribeToHealthCenter.call(chat_id: chat_id, health_center_id: health_center_id)
     SendMessageService.call(
-      chat_id: chat_id,
-      text: 'Posto selecionado\! Agora você ficará sabendo das atualizações'
+      service_chat_id: chat_id,
+      text: 'Posto selecionado\! Agora você ficará sabendo das atualizações',
+      edit_message: true
     )
     SendMessageService.call(
-      chat_id: chat_id,
+      service_chat_id: chat_id,
       text: HealthCenterStatusBuilderService.call(HealthCenter.find(health_center_id))
     )
   end
@@ -80,6 +87,10 @@ class UpdatesController < ApplicationController
     return false if message_object['text'].blank?
 
     message_object['text'].starts_with?('/listarpostos')
+  end
+
+  def list_regions_again?
+    callback_data[:namespace] == RegionsBuilderService::NAMESPACE_LIST_REGIONS
   end
 
   def district_selected?

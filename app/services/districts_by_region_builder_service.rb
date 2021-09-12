@@ -23,6 +23,10 @@ class DistrictsByRegionBuilderService
                     'callback_data': "#{NAMESPACE}:#{id}"
                   }
                 end
+    districts << {
+      'text': '<< Voltar',
+      'callback_data': RegionsBuilderService::NAMESPACE_LIST_REGIONS.to_s
+    }
     OptionsBuilderService.call(districts)
   end
   # rubocop:enable Metrics/MethodLength

@@ -19,4 +19,10 @@ class TelegramApiService
       req.body = payload.to_json
     end
   end
+
+  def edit_message(payload)
+    @faraday.post('editMessageText') do |req|
+      req.body = payload.to_json
+    end
+  end
 end
